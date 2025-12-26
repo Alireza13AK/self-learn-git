@@ -7,12 +7,17 @@
       placeholder="Ajouter une tâche"
       @keyup.enter="addTodo"
     />
-
     <button @click="addTodo">Ajouter</button>
 
     <ul>
-      <li v-for="(todo, index) in todos" :key="index">
-        {{ todo }}
+      <li
+        v-for="(todo, index) in todos"
+        :key="index"
+        :class="{ done: todo.done }"
+      >
+        <span @click="toggleTodo(index)">
+          {{ todo.text }}
+        </span>
         <button @click="removeTodo(index)">❌</button>
       </li>
     </ul>
@@ -30,12 +35,18 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodo.trim() !== '') {
-        this.todos.push(this.newTodo)
+        this.todos.push({
+          text: this.newTodo,
+          done: false
+        })
         this.newTodo = ''
       }
     },
     removeTodo(index) {
       this.todos.splice(index, 1)
+    },
+    toggleTodo(index) {
+      this.todos[index].done = !this.todos[index].done
     }
   }
 }
@@ -48,17 +59,13 @@ export default {
   font-family: Arial, sans-serif;
 }
 
-input {
-  padding: 8px;
-  width: 70%;
-}
-
-button {
-  margin-left: 5px;
-  padding: 8px;
-}
-
 li {
   margin-top: 10px;
+  cursor: pointer;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
 }
 </style>
