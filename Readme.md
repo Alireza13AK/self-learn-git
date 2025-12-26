@@ -1,3 +1,4 @@
+# 🚀 Vue 3 Todo App — Clean Git Workflow
 # installer / lancer
 npm install
 npm run dev
