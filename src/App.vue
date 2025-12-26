@@ -32,7 +32,19 @@ export default {
       todos: []
     }
   },
+
+  mounted() {
+    const savedTodos = localStorage.getItem('todos')
+    if (savedTodos) {
+      this.todos = JSON.parse(savedTodos)
+    }
+  },
+
   methods: {
+    saveTodos() {
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+    },
+
     addTodo() {
       if (this.newTodo.trim() !== '') {
         this.todos.push({
@@ -40,13 +52,18 @@ export default {
           done: false
         })
         this.newTodo = ''
+        this.saveTodos()
       }
     },
+
     removeTodo(index) {
       this.todos.splice(index, 1)
+      this.saveTodos()
     },
+
     toggleTodo(index) {
       this.todos[index].done = !this.todos[index].done
+      this.saveTodos()
     }
   }
 }
